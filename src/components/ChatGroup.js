@@ -293,7 +293,7 @@ class ChatGroup extends React.Component {
           className="col-12 d-flex justify-content-between"
           style={{ backgroundColor: "rgb(14, 158, 178)" }}
         >
-          <UsersWrapper className="col-11 d-flex align-items-center">
+          <UsersWrapper className="col-lg-10 col-md-8 d-flex align-items-center">
             {createdBy !== "" ? (
               <div>
                 <h3
