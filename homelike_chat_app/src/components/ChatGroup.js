@@ -76,6 +76,20 @@ const EditCancelBtn = styled.button`
   border: none;
 `;
 
+const TypingAlert = styled.div`
+  width: fit-content;
+  position: sticky;
+  top: 0;
+  left: 49%;
+  border: 2px solid #ccc;
+  border-top: 0;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  padding: 0.2% 2%;
+  background: #efefef;
+  color: rgba(76, 64, 64, 0.72);
+`;
+
 class ChatGroup extends React.Component {
   state = {
     groupId: "",
@@ -84,6 +98,10 @@ class ChatGroup extends React.Component {
     createdOn: null,
     users: [],
     messages: [],
+    typing: {
+      status: false,
+      username: ""
+    },
     currentUser: {}
   };
   // connect to server
@@ -149,6 +167,10 @@ class ChatGroup extends React.Component {
       })
       .catch(err => console.log(err));
 
+    this.socket.on("typing", data => {
+      this.setState({ typing: { status: data.status, user: data.username } });
+    });
+
     // call login event
     this.socket.on("login", user => {
       // take a copy of users from the state
@@ -157,20 +179,6 @@ class ChatGroup extends React.Component {
       users.map(item => {
         if (item.username === user.name) {
           item.status = true;
-        }
-      });
-      // then set the state with updated user
-      this.setState({ users });
-    });
-
-    // call disconnect event
-    this.socket.on("disconnect", id => {
-      // take a copy of users from the state
-      const users = [...this.state.users];
-      // find the user who's disconnected and update his status to false
-      users.map(item => {
-        if (item.id === id) {
-          item.status = false;
         }
       });
       // then set the state with updated user
@@ -214,6 +222,22 @@ class ChatGroup extends React.Component {
     });
   }
 
+  componentDidUpdate() {
+    // call disconnect event
+    this.socket.on("disconnect", id => {
+      // take a copy of users from the state
+      const users = [...this.state.users];
+      // find the user who's disconnected and update his status to false
+      users.map(item => {
+        if (item.id === id) {
+          item.status = false;
+        }
+      });
+      // then set the state with updated user
+      this.setState({ users });
+    });
+  }
+
   // the function for sending msgs to the server
   sendMessage = e => {
     e.preventDefault();
@@ -231,6 +255,11 @@ class ChatGroup extends React.Component {
     });
     // empty the input value
     this.refs.chatinput.value = "";
+    // emit typing event with empty values after sending the message to remove "user is typing..."
+    this.socket.emit("typing", {
+      status: false,
+      username: ""
+    });
   };
 
   // the function for deleting msgs
@@ -277,6 +306,26 @@ class ChatGroup extends React.Component {
     this.setState({ messages });
   };
 
+  // the function for emit "typing" event when user is typing a message
+  typing = () => {
+    // get the current user
+    const user = this.state.currentUser.name;
+    // if the input value is null will emit the event with empty values
+    if (this.refs.chatinput.value === "") {
+      this.socket.emit("typing", {
+        status: false,
+        username: ""
+      });
+    }
+    // else will emit the event with a true status and username
+    else {
+      this.socket.emit("typing", {
+        status: true,
+        username: user
+      });
+    }
+  };
+
   render() {
     const {
       groupName,
@@ -284,6 +333,7 @@ class ChatGroup extends React.Component {
       createdOn,
       users,
       messages,
+      typing,
       currentUser
     } = this.state;
 
@@ -293,7 +343,7 @@ class ChatGroup extends React.Component {
           className="col-12 d-flex justify-content-between"
           style={{ backgroundColor: "rgb(14, 158, 178)" }}
         >
-          <UsersWrapper className="col-11 d-flex align-items-center">
+          <UsersWrapper className="col-lg-10 col-md-8 d-flex align-items-center">
             {createdBy !== "" ? (
               <div>
                 <h3
@@ -354,7 +404,7 @@ class ChatGroup extends React.Component {
                             }}
                           />
                         </div>
-                        <h5>{item.username}</h5>
+                        <h5>{item.username} </h5>
                       </div>
                     </li>
                   );
@@ -383,7 +433,12 @@ class ChatGroup extends React.Component {
         </div>
         <MessagesWrapper className="col-12 d-flex flex-column align-items-around">
           <MEssagesContainer className="d-flex flex-column h-100 w-100 m-0 p-0">
-            <div>
+            <div style={{ position: "relative" }}>
+              {typing.status && typing.user !== currentUser.name ? (
+                <TypingAlert>{typing.user} is typing ...</TypingAlert>
+              ) : (
+                ""
+              )}
               {messages.map(item => {
                 return item.editing === false ? (
                   <Message

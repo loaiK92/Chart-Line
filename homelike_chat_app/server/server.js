@@ -138,8 +138,8 @@ io.on("connection", socket => {
 
   //Listen to a user typing
   socket.on("typing", data => {
+    // then emit the event
     io.emit("typing", data);
-    console.log(data);
   });
 });
 
