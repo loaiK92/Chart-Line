@@ -5,8 +5,8 @@ The user is able to select and switch the plotted variable by its name from a si
 
 ## Data
 
-The data is containing 2000 data samples (row) & 200 variables, where the first row contains the variable names.
-Datastore structure: my choice for the data storage was MongoDB, due to its fast response time.
+- The data is containing 2000 data samples (row) & 200 variables, where the first row contains the variable names.
+- Datastore structure: my choice for the data storage was MongoDB, due to its fast response time.
 The data is stored using mLab database service and structured as one data collection which contains 2000 documents consisting of 200 fields [var001 ... var200].
 
 ### Technologies
@@ -17,7 +17,7 @@ The data is stored using mLab database service and structured as one data collec
 
 ## Getting Started :
 
-1- Clone this repo `git clone https://github.com/loaiK92/Chat-App.git`
+1- Clone this repo `git clone https://github.com/loaiK92/Chart-Line.git`
 
 2- Create `variables.env` file in the folder route which should contain : `MongoDB URI` & `port`
 
