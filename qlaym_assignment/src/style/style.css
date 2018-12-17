@@ -1,0 +1,52 @@
+*, html, body {
+  margin: 0;
+  padding: 0; }
+
+.App {
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+  .App .form {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    padding: 4% 2% 2%; }
+    @media screen and (max-width: 900px) {
+      .App .form {
+        width: 90%; } }
+    .App .form .inputElement {
+      width: 50%;
+      font-size: 1.1rem;
+      padding: 1%;
+      border: 1px solid #ccc; }
+      .App .form .inputElement:focus {
+        outline-color: #008ffb; }
+      @media screen and (max-width: 900px) {
+        .App .form .inputElement {
+          font-size: 2.5vw; } }
+    .App .form .searchBtn {
+      width: 15%;
+      border: 0;
+      border: 1px solid #008ffb;
+      color: #fff;
+      font-size: 1.1rem;
+      transition: all 0.3s linear;
+      background: #008ffb;
+      cursor: pointer; }
+      .App .form .searchBtn:hover {
+        box-shadow: 2px 2px 15px rgba(0, 143, 251, 0.5); }
+      .App .form .searchBtn:focus {
+        outline-color: #008ffb; }
+      @media screen and (max-width: 900px) {
+        .App .form .searchBtn {
+          font-size: 2.5vw; } }
+  .App .chartWrapper {
+    width: 100%;
+    padding: 2% 0;
+    display: flex;
+    justify-content: center; }
+    .App .chartWrapper .chart {
+      width: 70%;
+      border: 1px solid #ccc;
+      padding: 2% 2% 0;
+      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.1), -5px 5px 15px rgba(0, 0, 0, 0.1); }

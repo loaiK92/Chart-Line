@@ -1,0 +1,15 @@
+Note: Information about the run script will be found at the end of the PDF.
+
+As wished, the backend was built with Node.js using Express as my web framework and Mongoose library.
+
+For the user interface I used React.js, and Apexchart for the data visualization, SCSS preprocessor.
+
+Datastore structure and import procedure description:
+My choice for the data storage was MongoDB, due to its fast response time.
+The data is stored using mLab database service and structured as one data collection which contains 2000 documents consisting of 200 fields [var001 ... var200].
+mLab provides tools for a faster workflow. As the one-click CSV import which was useful in my case to populate the collection with the data needed for this demo.
+
+Note: because the response was taking over 3s sometimes on a slow network I used streams to optimize the user experience. Now the user is able to see a result within 300ms while the chart is being populated gradually.
+
+NPM script: 
+- npm run server : to start development enviroment.

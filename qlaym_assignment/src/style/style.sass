@@ -1,0 +1,51 @@
+@import './_variables.sass'
+      
+*,html,body
+      margin: 0
+      padding: 0
+
+.App
+      display: flex
+      flex-direction: column
+      align-items: center
+      .form
+            display: flex
+            justify-content: center
+            width: 50%
+            padding: 4% 2% 2%
+            @media screen and (max-width:900px) 
+                  width: 90%
+            .inputElement
+                  width: 50%
+                  font-size: 1.1rem
+                  padding: 1%
+                  border: 1px solid $secondary-color
+                  &:focus
+                        outline-color: $primary-color
+                  @media screen and (max-width:900px) 
+                        font-size: 2.5vw
+            .searchBtn
+                  width: 15%
+                  border: 0
+                  border: 1px solid $primary-color
+                  color: #fff
+                  font-size: 1.1rem
+                  transition: all 0.3s linear
+                  background: $primary-color
+                  cursor: pointer
+                  &:hover
+                        box-shadow: 2px 2px 15px rgba(0,143,251,0.5)
+                  &:focus
+                        outline-color: $primary-color
+                  @media screen and (max-width:900px) 
+                        font-size: 2.5vw
+      .chartWrapper
+            width: 100%
+            padding: 2% 0
+            display: flex
+            justify-content: center
+            .chart
+                  width: 70%
+                  border: 1px solid $secondary-color
+                  padding: 2% 2% 0
+                  box-shadow: 5px 5px 15px rgba(0,0,0,0.1), -5px 5px 15px rgba(0,0,0,0.1)
